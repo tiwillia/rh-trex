@@ -44,6 +44,7 @@ type Handlers struct {
 
 type Services struct {
 	Dinosaurs DinosaurServiceLocator
+	KindName  KindNameServiceLocator
 	Generic   GenericServiceLocator
 	Events    EventServiceLocator
 }

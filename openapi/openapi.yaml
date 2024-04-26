@@ -187,6 +187,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     parameters:
     - $ref: '#/components/parameters/id'
+  /api/rh-trex/v1/kindnames:
+    $ref: 'openapi.kindnames.yaml#/paths/~1api~1rh-trex~1v1~1kindnames'
+  /api/rh-trex/v1/kindnames/{id}:
+    $ref: 'openapi.kindnames.yaml#/paths/~1api~1rh-trex~1v1~1kindnames~1{id}'
   # AUTO-ADD NEW PATHS
 components:
   securitySchemes:
@@ -274,6 +278,12 @@ components:
       properties:
         species:
           type: string
+    KindName:
+      $ref: 'openapi.kindnames.yaml#/components/schemas/KindName'
+    KindNameList:
+      $ref: 'openapi.kindnames.yaml#/components/schemas/KindNameList'
+    KindNamePatchRequest:
+      $ref: 'openapi.kindnames.yaml#/components/schemas/KindNamePatchRequest'
     # AUTO-ADD NEW SCHEMAS
   parameters:
     id:

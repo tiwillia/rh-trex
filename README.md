@@ -223,15 +223,126 @@ Generator scripts can be used to auto generate a new Kind. Run the following com
 go run ./scripts/generator.go --kind KindName
 ```
 
-Following manual changes are required to run the application successfully:
-- `pkg/api/presenters/kind.go` : Add case statement for the kind
-- `pkg/api/presenters/path.go` : Add case statement for the kind
-- `pkg/api/presenters/` : Add presenters file (if missing)
-- `cmd/trex/environments/service_types.go` : Add new service locator for the kind
-- `cmd/trex/environments/types.go` : Add service locator and use `cmd/trex/environments/framework.go` to instantiate
-- `cmd/trex/server/routes.go` : Add service routes (if missing)
-- Add validation methods in handler if required
-- `pkg/db/migrations/migration_structs.go` : Add migration name
-- `test/factories.go` : Add helper functions
+This creates the following:
+- cmd/trex/environments/locator_kindname.go
+- openapi/openapi.kindnames.yaml
+- pkg/api/kindname.go
+- pkg/api/presenters/kindname.go
+- pkg/dao/kindname.go
+- pkg/dao/mocks/kindname.go
+- pkg/db/migrations/202404261206_add_kindnames.go
+- pkg/handlers/kindname.go
+- pkg/services/kindname.go
+- test/factories/
+- test/integration/kindnames_test.go
 
-Here's a reference MR for the same : https://github.com/openshift-online/rh-trex/pull/25
+For an explanation of each of these files, review the comment at the top of each file.
+<TODO> update templates to include an explanation of the file at the top of each file.
+
+Next, the OpenAPI spec and package must be updated to support the new kind before the server will run:
+```shell
+make generate
+```
+
+At this point, the binary should build successfully. Some manual steps are currently required. 
+
+The new serviceLocator should be added to the environment Services struct:
+```go
+// ./cmd/trext/environments/types.go
+
+type Services struct {
+        Dinosaurs DinosaurServiceLocator
++       KindName  KindNameServiceLocator
+        Generic   GenericServiceLocator
+        Events    EventServiceLocator
+}
+
+The new service locator must be added to the environment:
+```go
+// ./cmd/trex/environments/framework.go
+
+func (e *Env) LoadServices() {
+        e.Services.Generic = NewGenericServiceLocator(e)
+        e.Services.Dinosaurs = NewDinosaurServiceLocator(e)
++       e.Services.KindName = NewKindNameServiceLocator(e)
+        e.Services.Events = NewEventServiceLocator(e)
+}
+```
+
+The presenters needs to be upated to recognize the new kind:
+```go
+// ./pkg/api/presenters/kind.go
+
+ func ObjectKind(i interface{}) *string {
+ 	result := ""
+ 	switch i.(type) {
+ 	case api.Dinosaur, *api.Dinosaur:
+ 		result = "Dinosaur"
++ 	case api.KindName, *api.KindName:
++ 		result = "KindName"
+ 	case errors.ServiceError, *errors.ServiceError:
+ 		result = "Error"
+ 	}
+
+```
+
+```go
+// ./pkg/api/presenters/path.go
+
+ func path(i interface{}) string {
+ 	switch i.(type) {
+ 	case api.Dinosaur, *api.Dinosaur:
+ 		return "dinosaurs"
++ 	case api.KindName, *api.KindName:
++ 		return "kindnames"
+ 	case errors.ServiceError, *errors.ServiceError:
+ 		return "errors"
+ 	default:
+ 		return ""
+ 	}
+ }
+```
+
+The new handler needs to be added to the API routes to be accessible:
+```go
+// ./cmd/trex/server/routes.go
+
+	dinosaurHandler := handlers.NewDinosaurHandler(services.Dinosaurs(), services.Generic())
++   kindNameHandler := handlers.NewKindNameHandler(services.KindName(), services.Generic())
+	errorsHandler := handlers.NewErrorsHandler()
+
+...
+
++   //  /api/rh-trex/v1/kindnames
++   apiV1KindNamesRouter := apiV1Router.PathPrefix("/kindnames").Subrouter()
++   apiV1KindNamesRouter.HandleFunc("", kindNameHandler.List).Methods(http.MethodGet)
++   apiV1KindNamesRouter.HandleFunc("/{id}", kindNameHandler.Get).Methods(http.MethodGet)
++   apiV1KindNamesRouter.HandleFunc("", kindNameHandler.Create).Methods(http.MethodPost)
++   apiV1KindNamesRouter.HandleFunc("/{id}", kindNameHandler.Patch).Methods(http.MethodPatch)
++   apiV1KindNamesRouter.HandleFunc("/{id}", kindNameHandler.Delete).Methods(http.MethodDelete)
++   apiV1KindNamesRouter.Use(authMiddleware.AuthenticateAccountJWT)
++
++   apiV1KindNamesRouter.Use(authzMiddleware.AuthorizeApi)
+
+```
+
+Add the new migration to the list of database migrations that are run:
+
+```go
+// ./pkg/db/migrations/migration_structs.go
+
+   var MigrationList = []*gormigrate.Migration{
+       addDinosaurs(),
+       addEvents(),
++      addKindNames(),
+   }
+
+```
+
+Finally, build the new binary and run the database migrations:
+```shell
+make binary
+./trex migrate
+```
+
+<TODO> provide an example MR with the above manual changes.

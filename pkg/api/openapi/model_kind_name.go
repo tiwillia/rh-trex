@@ -15,37 +15,38 @@ import (
 	"time"
 )
 
-// checks if the ObjectReference type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &ObjectReference{}
+// checks if the KindName type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &KindName{}
 
-// ObjectReference struct for ObjectReference
-type ObjectReference struct {
+// KindName struct for KindName
+type KindName struct {
 	Id        *string    `json:"id,omitempty"`
 	Kind      *string    `json:"kind,omitempty"`
 	Href      *string    `json:"href,omitempty"`
 	CreatedAt *time.Time `json:"created_at,omitempty"`
 	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+	Foo       *string    `json:"foo,omitempty"`
 }
 
-// NewObjectReference instantiates a new ObjectReference object
+// NewKindName instantiates a new KindName object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewObjectReference() *ObjectReference {
-	this := ObjectReference{}
+func NewKindName() *KindName {
+	this := KindName{}
 	return &this
 }
 
-// NewObjectReferenceWithDefaults instantiates a new ObjectReference object
+// NewKindNameWithDefaults instantiates a new KindName object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewObjectReferenceWithDefaults() *ObjectReference {
-	this := ObjectReference{}
+func NewKindNameWithDefaults() *KindName {
+	this := KindName{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *ObjectReference) GetId() string {
+func (o *KindName) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -55,7 +56,7 @@ func (o *ObjectReference) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectReference) GetIdOk() (*string, bool) {
+func (o *KindName) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -63,7 +64,7 @@ func (o *ObjectReference) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *ObjectReference) HasId() bool {
+func (o *KindName) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -72,12 +73,12 @@ func (o *ObjectReference) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *ObjectReference) SetId(v string) {
+func (o *KindName) SetId(v string) {
 	o.Id = &v
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
-func (o *ObjectReference) GetKind() string {
+func (o *KindName) GetKind() string {
 	if o == nil || IsNil(o.Kind) {
 		var ret string
 		return ret
@@ -87,7 +88,7 @@ func (o *ObjectReference) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectReference) GetKindOk() (*string, bool) {
+func (o *KindName) GetKindOk() (*string, bool) {
 	if o == nil || IsNil(o.Kind) {
 		return nil, false
 	}
@@ -95,7 +96,7 @@ func (o *ObjectReference) GetKindOk() (*string, bool) {
 }
 
 // HasKind returns a boolean if a field has been set.
-func (o *ObjectReference) HasKind() bool {
+func (o *KindName) HasKind() bool {
 	if o != nil && !IsNil(o.Kind) {
 		return true
 	}
@@ -104,12 +105,12 @@ func (o *ObjectReference) HasKind() bool {
 }
 
 // SetKind gets a reference to the given string and assigns it to the Kind field.
-func (o *ObjectReference) SetKind(v string) {
+func (o *KindName) SetKind(v string) {
 	o.Kind = &v
 }
 
 // GetHref returns the Href field value if set, zero value otherwise.
-func (o *ObjectReference) GetHref() string {
+func (o *KindName) GetHref() string {
 	if o == nil || IsNil(o.Href) {
 		var ret string
 		return ret
@@ -119,7 +120,7 @@ func (o *ObjectReference) GetHref() string {
 
 // GetHrefOk returns a tuple with the Href field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectReference) GetHrefOk() (*string, bool) {
+func (o *KindName) GetHrefOk() (*string, bool) {
 	if o == nil || IsNil(o.Href) {
 		return nil, false
 	}
@@ -127,7 +128,7 @@ func (o *ObjectReference) GetHrefOk() (*string, bool) {
 }
 
 // HasHref returns a boolean if a field has been set.
-func (o *ObjectReference) HasHref() bool {
+func (o *KindName) HasHref() bool {
 	if o != nil && !IsNil(o.Href) {
 		return true
 	}
@@ -136,12 +137,12 @@ func (o *ObjectReference) HasHref() bool {
 }
 
 // SetHref gets a reference to the given string and assigns it to the Href field.
-func (o *ObjectReference) SetHref(v string) {
+func (o *KindName) SetHref(v string) {
 	o.Href = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *ObjectReference) GetCreatedAt() time.Time {
+func (o *KindName) GetCreatedAt() time.Time {
 	if o == nil || IsNil(o.CreatedAt) {
 		var ret time.Time
 		return ret
@@ -151,7 +152,7 @@ func (o *ObjectReference) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectReference) GetCreatedAtOk() (*time.Time, bool) {
+func (o *KindName) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || IsNil(o.CreatedAt) {
 		return nil, false
 	}
@@ -159,7 +160,7 @@ func (o *ObjectReference) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *ObjectReference) HasCreatedAt() bool {
+func (o *KindName) HasCreatedAt() bool {
 	if o != nil && !IsNil(o.CreatedAt) {
 		return true
 	}
@@ -168,12 +169,12 @@ func (o *ObjectReference) HasCreatedAt() bool {
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *ObjectReference) SetCreatedAt(v time.Time) {
+func (o *KindName) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *ObjectReference) GetUpdatedAt() time.Time {
+func (o *KindName) GetUpdatedAt() time.Time {
 	if o == nil || IsNil(o.UpdatedAt) {
 		var ret time.Time
 		return ret
@@ -183,7 +184,7 @@ func (o *ObjectReference) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectReference) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *KindName) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil || IsNil(o.UpdatedAt) {
 		return nil, false
 	}
@@ -191,7 +192,7 @@ func (o *ObjectReference) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // HasUpdatedAt returns a boolean if a field has been set.
-func (o *ObjectReference) HasUpdatedAt() bool {
+func (o *KindName) HasUpdatedAt() bool {
 	if o != nil && !IsNil(o.UpdatedAt) {
 		return true
 	}
@@ -200,11 +201,43 @@ func (o *ObjectReference) HasUpdatedAt() bool {
 }
 
 // SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *ObjectReference) SetUpdatedAt(v time.Time) {
+func (o *KindName) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
-func (o ObjectReference) MarshalJSON() ([]byte, error) {
+// GetFoo returns the Foo field value if set, zero value otherwise.
+func (o *KindName) GetFoo() string {
+	if o == nil || IsNil(o.Foo) {
+		var ret string
+		return ret
+	}
+	return *o.Foo
+}
+
+// GetFooOk returns a tuple with the Foo field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *KindName) GetFooOk() (*string, bool) {
+	if o == nil || IsNil(o.Foo) {
+		return nil, false
+	}
+	return o.Foo, true
+}
+
+// HasFoo returns a boolean if a field has been set.
+func (o *KindName) HasFoo() bool {
+	if o != nil && !IsNil(o.Foo) {
+		return true
+	}
+
+	return false
+}
+
+// SetFoo gets a reference to the given string and assigns it to the Foo field.
+func (o *KindName) SetFoo(v string) {
+	o.Foo = &v
+}
+
+func (o KindName) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -212,7 +245,7 @@ func (o ObjectReference) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o ObjectReference) ToMap() (map[string]interface{}, error) {
+func (o KindName) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -229,41 +262,44 @@ func (o ObjectReference) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.UpdatedAt) {
 		toSerialize["updated_at"] = o.UpdatedAt
 	}
+	if !IsNil(o.Foo) {
+		toSerialize["foo"] = o.Foo
+	}
 	return toSerialize, nil
 }
 
-type NullableObjectReference struct {
-	value *ObjectReference
+type NullableKindName struct {
+	value *KindName
 	isSet bool
 }
 
-func (v NullableObjectReference) Get() *ObjectReference {
+func (v NullableKindName) Get() *KindName {
 	return v.value
 }
 
-func (v *NullableObjectReference) Set(val *ObjectReference) {
+func (v *NullableKindName) Set(val *KindName) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableObjectReference) IsSet() bool {
+func (v NullableKindName) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableObjectReference) Unset() {
+func (v *NullableKindName) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableObjectReference(val *ObjectReference) *NullableObjectReference {
-	return &NullableObjectReference{value: val, isSet: true}
+func NewNullableKindName(val *KindName) *NullableKindName {
+	return &NullableKindName{value: val, isSet: true}
 }
 
-func (v NullableObjectReference) MarshalJSON() ([]byte, error) {
+func (v NullableKindName) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableObjectReference) UnmarshalJSON(src []byte) error {
+func (v *NullableKindName) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

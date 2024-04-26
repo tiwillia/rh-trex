@@ -23,6 +23,7 @@ func (s *apiServer) routes() *mux.Router {
 	}
 
 	dinosaurHandler := handlers.NewDinosaurHandler(services.Dinosaurs(), services.Generic())
+	kindNameHandler := handlers.NewKindNameHandler(services.KindName(), services.Generic())
 	errorsHandler := handlers.NewErrorsHandler()
 
 	var authMiddleware auth.JWTMiddleware
@@ -80,6 +81,17 @@ func (s *apiServer) routes() *mux.Router {
 	apiV1DinosaursRouter.Use(authMiddleware.AuthenticateAccountJWT)
 
 	apiV1DinosaursRouter.Use(authzMiddleware.AuthorizeApi)
+
+	//  /api/rh-trex/v1/kindnames
+	apiV1KindNamesRouter := apiV1Router.PathPrefix("/kindnames").Subrouter()
+	apiV1KindNamesRouter.HandleFunc("", kindNameHandler.List).Methods(http.MethodGet)
+	apiV1KindNamesRouter.HandleFunc("/{id}", kindNameHandler.Get).Methods(http.MethodGet)
+	apiV1KindNamesRouter.HandleFunc("", kindNameHandler.Create).Methods(http.MethodPost)
+	apiV1KindNamesRouter.HandleFunc("/{id}", kindNameHandler.Patch).Methods(http.MethodPatch)
+	apiV1KindNamesRouter.HandleFunc("/{id}", kindNameHandler.Delete).Methods(http.MethodDelete)
+	apiV1KindNamesRouter.Use(authMiddleware.AuthenticateAccountJWT)
+
+	apiV1KindNamesRouter.Use(authzMiddleware.AuthorizeApi)
 
 	return mainRouter
 }

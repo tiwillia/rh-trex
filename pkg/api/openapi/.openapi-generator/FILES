@@ -16,6 +16,11 @@ docs/Error.md
 docs/ErrorAllOf.md
 docs/ErrorList.md
 docs/ErrorListAllOf.md
+docs/KindName.md
+docs/KindNameAllOf.md
+docs/KindNameList.md
+docs/KindNameListAllOf.md
+docs/KindNamePatchRequest.md
 docs/List.md
 docs/ObjectReference.md
 git_push.sh
@@ -30,6 +35,11 @@ model_error.go
 model_error_all_of.go
 model_error_list.go
 model_error_list_all_of.go
+model_kind_name.go
+model_kind_name_all_of.go
+model_kind_name_list.go
+model_kind_name_list_all_of.go
+model_kind_name_patch_request.go
 model_list.go
 model_object_reference.go
 response.go

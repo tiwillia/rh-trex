@@ -1,7 +1,7 @@
 /*
-rh-trex API
+rh-trex Service API
 
-rh-trex API
+rh-trex Service API
 
 API version: 0.0.1
 */
@@ -599,6 +599,674 @@ func (a *DefaultApiService) ApiRhTrexV1DinosaursPostExecute(r ApiApiRhTrexV1Dino
 	}
 	// body params
 	localVarPostBody = r.dinosaur
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiApiRhTrexV1KindnamesGetRequest struct {
+	ctx        context.Context
+	ApiService *DefaultApiService
+	page       *int32
+	size       *int32
+	search     *string
+	orderBy    *string
+	fields     *string
+}
+
+// Page number of record list when record list exceeds specified page size
+func (r ApiApiRhTrexV1KindnamesGetRequest) Page(page int32) ApiApiRhTrexV1KindnamesGetRequest {
+	r.page = &page
+	return r
+}
+
+// Maximum number of records to return
+func (r ApiApiRhTrexV1KindnamesGetRequest) Size(size int32) ApiApiRhTrexV1KindnamesGetRequest {
+	r.size = &size
+	return r
+}
+
+// Specifies the search criteria. The syntax of this parameter is similar to the syntax of the _where_ clause of an SQL statement, using the names of the json attributes / column names of the account.  For example, in order to retrieve all the accounts with a username starting with &#x60;my&#x60;:  &#x60;&#x60;&#x60;sql username like &#39;my%&#39; &#x60;&#x60;&#x60;  The search criteria can also be applied on related resource. For example, in order to retrieve all the subscriptions labeled by &#x60;foo&#x3D;bar&#x60;,  &#x60;&#x60;&#x60;sql subscription_labels.key &#x3D; &#39;foo&#39; and subscription_labels.value &#x3D; &#39;bar&#39; &#x60;&#x60;&#x60;  If the parameter isn&#39;t provided, or if the value is empty, then all the accounts that the user has permission to see will be returned.
+func (r ApiApiRhTrexV1KindnamesGetRequest) Search(search string) ApiApiRhTrexV1KindnamesGetRequest {
+	r.search = &search
+	return r
+}
+
+// Specifies the order by criteria. The syntax of this parameter is similar to the syntax of the _order by_ clause of an SQL statement, but using the names of the json attributes / column of the account. For example, in order to retrieve all accounts ordered by username:  &#x60;&#x60;&#x60;sql username asc &#x60;&#x60;&#x60;  Or in order to retrieve all accounts ordered by username _and_ first name:  &#x60;&#x60;&#x60;sql username asc, firstName asc &#x60;&#x60;&#x60;  If the parameter isn&#39;t provided, or if the value is empty, then no explicit ordering will be applied.
+func (r ApiApiRhTrexV1KindnamesGetRequest) OrderBy(orderBy string) ApiApiRhTrexV1KindnamesGetRequest {
+	r.orderBy = &orderBy
+	return r
+}
+
+// Supplies a comma-separated list of fields to be returned. Fields of sub-structures and of arrays use &lt;structure&gt;.&lt;field&gt; notation. &lt;stucture&gt;.* means all field of a structure Example: For each Subscription to get id, href, plan(id and kind) and labels (all fields)  &#x60;&#x60;&#x60; ocm get subscriptions --parameter fields&#x3D;id,href,plan.id,plan.kind,labels.* --parameter fetchLabels&#x3D;true &#x60;&#x60;&#x60;
+func (r ApiApiRhTrexV1KindnamesGetRequest) Fields(fields string) ApiApiRhTrexV1KindnamesGetRequest {
+	r.fields = &fields
+	return r
+}
+
+func (r ApiApiRhTrexV1KindnamesGetRequest) Execute() (*KindNameList, *http.Response, error) {
+	return r.ApiService.ApiRhTrexV1KindnamesGetExecute(r)
+}
+
+/*
+ApiRhTrexV1KindnamesGet Returns a list of kindnames
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiApiRhTrexV1KindnamesGetRequest
+*/
+func (a *DefaultApiService) ApiRhTrexV1KindnamesGet(ctx context.Context) ApiApiRhTrexV1KindnamesGetRequest {
+	return ApiApiRhTrexV1KindnamesGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return KindNameList
+func (a *DefaultApiService) ApiRhTrexV1KindnamesGetExecute(r ApiApiRhTrexV1KindnamesGetRequest) (*KindNameList, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *KindNameList
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ApiRhTrexV1KindnamesGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/rh-trex/v1/kindnames"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+	}
+	if r.size != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "size", r.size, "")
+	}
+	if r.search != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "search", r.search, "")
+	}
+	if r.orderBy != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderBy", r.orderBy, "")
+	}
+	if r.fields != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "fields", r.fields, "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiApiRhTrexV1KindnamesIdGetRequest struct {
+	ctx        context.Context
+	ApiService *DefaultApiService
+	id         string
+}
+
+func (r ApiApiRhTrexV1KindnamesIdGetRequest) Execute() (*KindName, *http.Response, error) {
+	return r.ApiService.ApiRhTrexV1KindnamesIdGetExecute(r)
+}
+
+/*
+ApiRhTrexV1KindnamesIdGet Get an kindname by id
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of record
+	@return ApiApiRhTrexV1KindnamesIdGetRequest
+*/
+func (a *DefaultApiService) ApiRhTrexV1KindnamesIdGet(ctx context.Context, id string) ApiApiRhTrexV1KindnamesIdGetRequest {
+	return ApiApiRhTrexV1KindnamesIdGetRequest{
+		ApiService: a,
+		ctx:        ctx,
+		id:         id,
+	}
+}
+
+// Execute executes the request
+//
+//	@return KindName
+func (a *DefaultApiService) ApiRhTrexV1KindnamesIdGetExecute(r ApiApiRhTrexV1KindnamesIdGetRequest) (*KindName, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *KindName
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ApiRhTrexV1KindnamesIdGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/rh-trex/v1/kindnames/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiApiRhTrexV1KindnamesIdPatchRequest struct {
+	ctx                  context.Context
+	ApiService           *DefaultApiService
+	id                   string
+	kindNamePatchRequest *KindNamePatchRequest
+}
+
+// Updated kindname data
+func (r ApiApiRhTrexV1KindnamesIdPatchRequest) KindNamePatchRequest(kindNamePatchRequest KindNamePatchRequest) ApiApiRhTrexV1KindnamesIdPatchRequest {
+	r.kindNamePatchRequest = &kindNamePatchRequest
+	return r
+}
+
+func (r ApiApiRhTrexV1KindnamesIdPatchRequest) Execute() (*KindName, *http.Response, error) {
+	return r.ApiService.ApiRhTrexV1KindnamesIdPatchExecute(r)
+}
+
+/*
+ApiRhTrexV1KindnamesIdPatch Update an kindname
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of record
+	@return ApiApiRhTrexV1KindnamesIdPatchRequest
+*/
+func (a *DefaultApiService) ApiRhTrexV1KindnamesIdPatch(ctx context.Context, id string) ApiApiRhTrexV1KindnamesIdPatchRequest {
+	return ApiApiRhTrexV1KindnamesIdPatchRequest{
+		ApiService: a,
+		ctx:        ctx,
+		id:         id,
+	}
+}
+
+// Execute executes the request
+//
+//	@return KindName
+func (a *DefaultApiService) ApiRhTrexV1KindnamesIdPatchExecute(r ApiApiRhTrexV1KindnamesIdPatchRequest) (*KindName, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *KindName
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ApiRhTrexV1KindnamesIdPatch")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/rh-trex/v1/kindnames/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.kindNamePatchRequest == nil {
+		return localVarReturnValue, nil, reportError("kindNamePatchRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.kindNamePatchRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiApiRhTrexV1KindnamesPostRequest struct {
+	ctx        context.Context
+	ApiService *DefaultApiService
+	kindName   *KindName
+}
+
+// KindName data
+func (r ApiApiRhTrexV1KindnamesPostRequest) KindName(kindName KindName) ApiApiRhTrexV1KindnamesPostRequest {
+	r.kindName = &kindName
+	return r
+}
+
+func (r ApiApiRhTrexV1KindnamesPostRequest) Execute() (*KindName, *http.Response, error) {
+	return r.ApiService.ApiRhTrexV1KindnamesPostExecute(r)
+}
+
+/*
+ApiRhTrexV1KindnamesPost Create a new kindname
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiApiRhTrexV1KindnamesPostRequest
+*/
+func (a *DefaultApiService) ApiRhTrexV1KindnamesPost(ctx context.Context) ApiApiRhTrexV1KindnamesPostRequest {
+	return ApiApiRhTrexV1KindnamesPostRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return KindName
+func (a *DefaultApiService) ApiRhTrexV1KindnamesPostExecute(r ApiApiRhTrexV1KindnamesPostRequest) (*KindName, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *KindName
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.ApiRhTrexV1KindnamesPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/rh-trex/v1/kindnames"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.kindName == nil {
+		return localVarReturnValue, nil, reportError("kindName is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.kindName
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

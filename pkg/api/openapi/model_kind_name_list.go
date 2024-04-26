@@ -14,40 +14,42 @@ import (
 	"encoding/json"
 )
 
-// checks if the List type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &List{}
+// checks if the KindNameList type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &KindNameList{}
 
-// List struct for List
-type List struct {
-	Kind  string `json:"kind"`
-	Page  int32  `json:"page"`
-	Size  int32  `json:"size"`
-	Total int32  `json:"total"`
+// KindNameList struct for KindNameList
+type KindNameList struct {
+	Kind  string     `json:"kind"`
+	Page  int32      `json:"page"`
+	Size  int32      `json:"size"`
+	Total int32      `json:"total"`
+	Items []KindName `json:"items"`
 }
 
-// NewList instantiates a new List object
+// NewKindNameList instantiates a new KindNameList object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewList(kind string, page int32, size int32, total int32) *List {
-	this := List{}
+func NewKindNameList(kind string, page int32, size int32, total int32, items []KindName) *KindNameList {
+	this := KindNameList{}
 	this.Kind = kind
 	this.Page = page
 	this.Size = size
 	this.Total = total
+	this.Items = items
 	return &this
 }
 
-// NewListWithDefaults instantiates a new List object
+// NewKindNameListWithDefaults instantiates a new KindNameList object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListWithDefaults() *List {
-	this := List{}
+func NewKindNameListWithDefaults() *KindNameList {
+	this := KindNameList{}
 	return &this
 }
 
 // GetKind returns the Kind field value
-func (o *List) GetKind() string {
+func (o *KindNameList) GetKind() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -58,7 +60,7 @@ func (o *List) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value
 // and a boolean to check if the value has been set.
-func (o *List) GetKindOk() (*string, bool) {
+func (o *KindNameList) GetKindOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,12 +68,12 @@ func (o *List) GetKindOk() (*string, bool) {
 }
 
 // SetKind sets field value
-func (o *List) SetKind(v string) {
+func (o *KindNameList) SetKind(v string) {
 	o.Kind = v
 }
 
 // GetPage returns the Page field value
-func (o *List) GetPage() int32 {
+func (o *KindNameList) GetPage() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -82,7 +84,7 @@ func (o *List) GetPage() int32 {
 
 // GetPageOk returns a tuple with the Page field value
 // and a boolean to check if the value has been set.
-func (o *List) GetPageOk() (*int32, bool) {
+func (o *KindNameList) GetPageOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -90,12 +92,12 @@ func (o *List) GetPageOk() (*int32, bool) {
 }
 
 // SetPage sets field value
-func (o *List) SetPage(v int32) {
+func (o *KindNameList) SetPage(v int32) {
 	o.Page = v
 }
 
 // GetSize returns the Size field value
-func (o *List) GetSize() int32 {
+func (o *KindNameList) GetSize() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -106,7 +108,7 @@ func (o *List) GetSize() int32 {
 
 // GetSizeOk returns a tuple with the Size field value
 // and a boolean to check if the value has been set.
-func (o *List) GetSizeOk() (*int32, bool) {
+func (o *KindNameList) GetSizeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -114,12 +116,12 @@ func (o *List) GetSizeOk() (*int32, bool) {
 }
 
 // SetSize sets field value
-func (o *List) SetSize(v int32) {
+func (o *KindNameList) SetSize(v int32) {
 	o.Size = v
 }
 
 // GetTotal returns the Total field value
-func (o *List) GetTotal() int32 {
+func (o *KindNameList) GetTotal() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -130,7 +132,7 @@ func (o *List) GetTotal() int32 {
 
 // GetTotalOk returns a tuple with the Total field value
 // and a boolean to check if the value has been set.
-func (o *List) GetTotalOk() (*int32, bool) {
+func (o *KindNameList) GetTotalOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -138,11 +140,35 @@ func (o *List) GetTotalOk() (*int32, bool) {
 }
 
 // SetTotal sets field value
-func (o *List) SetTotal(v int32) {
+func (o *KindNameList) SetTotal(v int32) {
 	o.Total = v
 }
 
-func (o List) MarshalJSON() ([]byte, error) {
+// GetItems returns the Items field value
+func (o *KindNameList) GetItems() []KindName {
+	if o == nil {
+		var ret []KindName
+		return ret
+	}
+
+	return o.Items
+}
+
+// GetItemsOk returns a tuple with the Items field value
+// and a boolean to check if the value has been set.
+func (o *KindNameList) GetItemsOk() ([]KindName, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Items, true
+}
+
+// SetItems sets field value
+func (o *KindNameList) SetItems(v []KindName) {
+	o.Items = v
+}
+
+func (o KindNameList) MarshalJSON() ([]byte, error) {
 	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -150,47 +176,48 @@ func (o List) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o List) ToMap() (map[string]interface{}, error) {
+func (o KindNameList) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["kind"] = o.Kind
 	toSerialize["page"] = o.Page
 	toSerialize["size"] = o.Size
 	toSerialize["total"] = o.Total
+	toSerialize["items"] = o.Items
 	return toSerialize, nil
 }
 
-type NullableList struct {
-	value *List
+type NullableKindNameList struct {
+	value *KindNameList
 	isSet bool
 }
 
-func (v NullableList) Get() *List {
+func (v NullableKindNameList) Get() *KindNameList {
 	return v.value
 }
 
-func (v *NullableList) Set(val *List) {
+func (v *NullableKindNameList) Set(val *KindNameList) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableList) IsSet() bool {
+func (v NullableKindNameList) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableList) Unset() {
+func (v *NullableKindNameList) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableList(val *List) *NullableList {
-	return &NullableList{value: val, isSet: true}
+func NewNullableKindNameList(val *KindNameList) *NullableKindNameList {
+	return &NullableKindNameList{value: val, isSet: true}
 }
 
-func (v NullableList) MarshalJSON() ([]byte, error) {
+func (v NullableKindNameList) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableList) UnmarshalJSON(src []byte) error {
+func (v *NullableKindNameList) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -21,6 +21,8 @@ func path(i interface{}) string {
 	switch i.(type) {
 	case api.Dinosaur, *api.Dinosaur:
 		return "dinosaurs"
+	case api.KindName, *api.KindName:
+		return "kindnames"
 	case errors.ServiceError, *errors.ServiceError:
 		return "errors"
 	default:
